@@ -398,7 +398,7 @@ const Actions = observer(() => {
 })
 
 const engine = createDesigner()
-const App = () => {
+export const Example = () => {
   return (
     <Designer engine={engine}>
       <Workbench>
@@ -453,4 +453,3 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))

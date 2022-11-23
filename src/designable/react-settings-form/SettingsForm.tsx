@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useMemo } from 'react'
 import { createForm } from '@formily/core'
 import { Form } from '@formily/antd'
@@ -50,6 +51,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
           props.effects?.(form)
         },
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [node, node?.props, schema, operation, isEmpty])
 
     const render = () => {

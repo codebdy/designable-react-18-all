@@ -40,6 +40,7 @@ export const NodeActionsWidget: React.FC<INodeActionsWidgetProps> & {
 })
 
 NodeActionsWidget.Action = ({ icon, title, ...props }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefix = usePrefix('node-actions-item')
   return (
     <Typography.Link
