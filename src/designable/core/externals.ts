@@ -67,7 +67,7 @@ export const createResource = (...sources: IResourceCreator[]): IResource[] => {
         isSourceNode: true,
         children: source.elements || [],
       }),
-    } as any)
+    })
   }, [])
 }
 

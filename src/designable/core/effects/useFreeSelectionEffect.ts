@@ -9,25 +9,25 @@ import {
 
 export const useFreeSelectionEffect = (engine: Engine) => {
   engine.subscribeTo(DragStopEvent, (event) => {
-    if (engine.cursor?.dragType !== CursorDragType.Move) {
+    if (engine.cursor.dragType !== CursorDragType.Move) {
       return
     }
-    engine.workbench?.eachWorkspace((workspace) => {
+    engine.workbench.eachWorkspace((workspace) => {
       const viewport = workspace.viewport
       const dragEndPoint = new Point(
-        event.data.topClientX as any,
-        event.data.topClientY as any
+        event.data.topClientX,
+        event.data.topClientY
       )
       const dragStartOffsetPoint = viewport.getOffsetPoint(
         new Point(
-          engine.cursor?.dragStartPosition?.topClientX as any,
-          engine.cursor?.dragStartPosition?.topClientY as any
+          engine.cursor.dragStartPosition.topClientX,
+          engine.cursor.dragStartPosition.topClientY
         )
       )
       const dragEndOffsetPoint = viewport.getOffsetPoint(
         new Point(
-          engine.cursor?.position.topClientX as any,
-          engine.cursor?.position.topClientY as any
+          engine.cursor.position.topClientX,
+          engine.cursor.position.topClientY
         )
       )
       if (!viewport.isPointInViewport(dragEndPoint, false)) return
@@ -52,13 +52,13 @@ export const useFreeSelectionEffect = (engine: Engine) => {
               return buf
             }
           }
-          return buf.concat(node as any)
+          return buf.concat(node)
         },
         []
       )
       workspace.operation.selection.batchSafeSelect(selectedNodes)
     })
-    if (engine.cursor?.type === CursorType.Selection) {
+    if (engine.cursor.type === CursorType.Selection) {
       engine.cursor.setType(CursorType.Normal)
     }
   })

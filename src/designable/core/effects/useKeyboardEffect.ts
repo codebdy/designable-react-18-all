@@ -6,15 +6,15 @@ export const useKeyboardEffect = (engine: Engine) => {
     const keyboard = engine.keyboard
     if (!keyboard) return
     const workspace =
-      engine.workbench?.activeWorkspace || engine.workbench?.currentWorkspace
-    keyboard.handleKeyboard(event, workspace?.getEventContext() as any)
+      engine.workbench.activeWorkspace || engine.workbench.currentWorkspace
+    keyboard.handleKeyboard(event, workspace.getEventContext())
   })
 
   engine.subscribeTo(KeyUpEvent, (event) => {
     const keyboard = engine.keyboard
     if (!keyboard) return
     const workspace =
-      engine.workbench?.activeWorkspace || engine.workbench?.currentWorkspace
-    keyboard.handleKeyboard(event, workspace?.getEventContext() as any)
+      engine.workbench.activeWorkspace || engine.workbench.currentWorkspace
+    keyboard.handleKeyboard(event, workspace.getEventContext())
   })
 }

@@ -1,6 +1,6 @@
-import { ITreeNode, KeyCode, Shortcut, TreeNode } from '../models'
+import { KeyCode, Shortcut, TreeNode } from '../models'
 
-const findBottomLastChild = (node: TreeNode): TreeNode | undefined => {
+const findBottomLastChild = (node: TreeNode) => {
   if (!node) return node
   if (node.lastChild) {
     return findBottomLastChild(node.lastChild)
@@ -8,7 +8,7 @@ const findBottomLastChild = (node: TreeNode): TreeNode | undefined => {
   return node
 }
 
-const findTopParentNext = (node: TreeNode): ITreeNode | undefined => {
+const findTopParentNext = (node: TreeNode) => {
   if (!node.parent) return node
   if (node.parent?.next) return node.parent.next
   return findTopParentNext(node.parent)
@@ -28,15 +28,15 @@ export const SelectPrevNode = new Shortcut({
     if (operation) {
       const tree = operation.tree
       const selection = operation.selection
-      const selectedNode = tree.findById(selection.last as any)
+      const selectedNode = tree.findById(selection.last)
       if (selectedNode) {
         const previousNode = selectedNode.previous
         if (previousNode) {
-          const bottom = findBottomLastChild(previousNode as any)
+          const bottom = findBottomLastChild(previousNode)
           if (bottom) {
             selection.select(bottom)
           } else {
-            selection.select(previousNode as any)
+            selection.select(previousNode)
           }
         } else if (selectedNode.parent) {
           selection.select(selectedNode.parent)
@@ -65,15 +65,15 @@ export const SelectNextNode = new Shortcut({
     if (operation) {
       const tree = operation.tree
       const selection = operation.selection
-      const selectedNode = tree.findById(selection.last as any)
+      const selectedNode = tree.findById(selection.last)
       if (selectedNode) {
         const nextNode = selectedNode.firstChild
           ? selectedNode.firstChild
           : selectedNode.next
         if (nextNode) {
-          selection.select(nextNode as any)
+          selection.select(nextNode)
         } else {
-          selection.select(findTopParentNext(selectedNode) as any)
+          selection.select(findTopParentNext(selectedNode))
         }
       }
     }

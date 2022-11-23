@@ -11,9 +11,9 @@ const DRIVER_INSTANCES_SYMBOL = Symbol('DRIVER_INSTANCES_SYMBOL')
 export type EventOptions =
   | boolean
   | (AddEventListenerOptions &
-    EventListenerOptions & {
-      mode?: 'onlyOne' | 'onlyParent' | 'onlyChild'
-    })
+      EventListenerOptions & {
+        mode?: 'onlyOne' | 'onlyParent' | 'onlyChild'
+      })
 
 export type EventContainer = Window | HTMLElement | HTMLDocument
 
@@ -77,7 +77,7 @@ export interface IEventDriver {
 }
 
 export interface IEventDriverClass<T> {
-  new(engine: T, context?: any): IEventDriver
+  new (engine: T, context?: any): IEventDriver
 }
 
 export interface ICustomEvent<EventData = any, EventContext = any> {
@@ -87,7 +87,7 @@ export interface ICustomEvent<EventData = any, EventContext = any> {
 }
 
 export interface CustomEventClass {
-  new(...args: any[]): any
+  new (...args: any[]): any
 }
 
 export interface IEventProps<T = Event> {
@@ -101,14 +101,15 @@ const isOnlyMode = (mode: string) =>
  * 事件驱动器基类
  */
 export class EventDriver<Engine extends Event = Event, Context = any>
-  implements IEventDriver {
+  implements IEventDriver
+{
   engine: Engine
 
   container: EventDriverContainer = document
 
   contentWindow: Window = globalThisPolyfill
 
-  context: Context | undefined
+  context: Context
 
   constructor(engine: Engine, context?: Context) {
     this.engine = engine
@@ -165,10 +166,10 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   addEventListener(type: any, listener: any, options: any) {
-    const target = this.eventTarget(type) as any
+    const target = this.eventTarget(type)
     if (isOnlyMode(options?.mode)) {
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      const constructor = this['constructor'] as any
+      const constructor = this['constructor']
       constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
       const handler = target[EVENTS_ONCE_SYMBOL][type]
       const container = constructor[EVENTS_ONCE_SYMBOL][type]
@@ -212,9 +213,9 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   removeEventListener(type: any, listener: any, options?: any) {
-    const target = this.eventTarget(type) as any
+    const target = this.eventTarget(type)
     if (isOnlyMode(options?.mode)) {
-      const constructor = this['constructor'] as any
+      const constructor = this['constructor']
       constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
       delete constructor[EVENTS_ONCE_SYMBOL][type]
@@ -239,12 +240,12 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchAddEventListener(type: any, listener: any, options?: any) {
-    (this.engine as any)[DRIVER_INSTANCES_SYMBOL as any] =
-      (this.engine as any)[DRIVER_INSTANCES_SYMBOL] || []
-    if (!(this.engine as any)[DRIVER_INSTANCES_SYMBOL].includes(this)) {
-      (this.engine as any)[DRIVER_INSTANCES_SYMBOL].push(this)
+    this.engine[DRIVER_INSTANCES_SYMBOL] =
+      this.engine[DRIVER_INSTANCES_SYMBOL] || []
+    if (!this.engine[DRIVER_INSTANCES_SYMBOL].includes(this)) {
+      this.engine[DRIVER_INSTANCES_SYMBOL].push(this)
     }
-    (this.engine as any)[DRIVER_INSTANCES_SYMBOL].forEach((driver: any) => {
+    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
       const target = driver.eventTarget(type)
       target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
       if (!target[EVENTS_BATCH_SYMBOL][type]) {
@@ -265,9 +266,9 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchRemoveEventListener(type: any, listener: any, options: any) {
-    (this.engine as any)[DRIVER_INSTANCES_SYMBOL] =
-      (this.engine as any)[DRIVER_INSTANCES_SYMBOL] || [] as any
-    (this.engine as any)[DRIVER_INSTANCES_SYMBOL].forEach((driver: any) => {
+    this.engine[DRIVER_INSTANCES_SYMBOL] =
+      this.engine[DRIVER_INSTANCES_SYMBOL] || []
+    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
       const target = driver.eventTarget(type)
       target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
       target.removeEventListener(type, listener, options)
@@ -284,12 +285,12 @@ export class Event extends Subscribable<ICustomEvent<any>> {
   constructor(props?: IEventProps) {
     super()
     if (isArr(props?.effects)) {
-      props?.effects.forEach((plugin) => {
+      props.effects.forEach((plugin) => {
         plugin(this)
       })
     }
     if (isArr(props?.drivers)) {
-      this.drivers = props?.drivers as any
+      this.drivers = props.drivers
     }
   }
 
@@ -325,14 +326,13 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     container: EventContainer,
     contentWindow: Window = globalThisPolyfill,
     context?: any
-  ): any {
+  ) {
     if (!container) return
     if (isWindow(container)) {
       return this.attachEvents(container.document, container, context)
     }
-
-    if ((container as any)[ATTACHED_SYMBOL]) return
-    (container as any)[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
+    if (container[ATTACHED_SYMBOL]) return
+    container[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
       const driver = new EventDriver(this, context)
       driver.contentWindow = contentWindow
       driver.container = container
@@ -344,10 +344,9 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     }
   }
 
-  detachEvents(container?: EventContainer): any {
-    const self = this as any
+  detachEvents(container?: EventContainer) {
     if (!container) {
-      this.containers.forEach((container: any) => {
+      this.containers.forEach((container) => {
         this.detachEvents(container)
       })
       return
@@ -355,19 +354,14 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     if (isWindow(container)) {
       return this.detachEvents(container.document)
     }
-
-    if (!((container as any)[ATTACHED_SYMBOL])) {
-      return
-    }
-
-    const containerAny = (container as any)[ATTACHED_SYMBOL]
-    containerAny.forEach((driver: any) => {
-      driver.detach(container);
+    if (!container[ATTACHED_SYMBOL]) return
+    container[ATTACHED_SYMBOL].forEach((driver) => {
+      driver.detach(container)
     })
 
-    self[DRIVER_INSTANCES_SYMBOL] = self[DRIVER_INSTANCES_SYMBOL] || [] as any
-    self[DRIVER_INSTANCES_SYMBOL] = self[DRIVER_INSTANCES_SYMBOL].reduce(
-      (drivers: any, driver: any) => {
+    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL] || []
+    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL].reduce(
+      (drivers, driver) => {
         if (driver.container === container) {
           driver.detach(container)
           return drivers
@@ -376,10 +370,10 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       },
       []
     )
-    self.containers = self.containers.filter((item: any) => item !== container)
-    delete (container as any)[ATTACHED_SYMBOL]
-    delete (container as any)[EVENTS_SYMBOL]
-    delete (container as any)[EVENTS_ONCE_SYMBOL]
-    delete (container as any)[EVENTS_BATCH_SYMBOL]
+    this.containers = this.containers.filter((item) => item !== container)
+    delete container[ATTACHED_SYMBOL]
+    delete container[EVENTS_SYMBOL]
+    delete container[EVENTS_ONCE_SYMBOL]
+    delete container[EVENTS_BATCH_SYMBOL]
   }
 }

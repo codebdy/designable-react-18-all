@@ -25,7 +25,7 @@ export class Screen {
   status = ScreenStatus.Normal
   constructor(engine: Engine) {
     this.engine = engine
-    this.type = engine.props.defaultScreenType as any
+    this.type = engine.props.defaultScreenType
     this.makeObservable()
   }
 

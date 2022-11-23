@@ -9,36 +9,36 @@ import { requestIdle } from 'designable/shared'
 
 export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(MouseMoveEvent, (event) => {
-    engine.cursor?.setStatus(
+    engine.cursor.setStatus(
       engine.cursor.status === CursorStatus.Dragging ||
         engine.cursor.status === CursorStatus.DragStart
         ? engine.cursor.status
         : CursorStatus.Normal
     )
-    if (engine.cursor?.status === CursorStatus.Dragging) return
-    engine.cursor?.setPosition(event.data)
+    if (engine.cursor.status === CursorStatus.Dragging) return
+    engine.cursor.setPosition(event.data)
   })
   engine.subscribeTo(DragStartEvent, (event) => {
-    engine.cursor?.setStatus(CursorStatus.DragStart)
-    engine.cursor?.setDragStartPosition(event.data)
+    engine.cursor.setStatus(CursorStatus.DragStart)
+    engine.cursor.setDragStartPosition(event.data)
   })
   engine.subscribeTo(DragMoveEvent, (event) => {
-    engine.cursor?.setStatus(CursorStatus.Dragging)
-    engine.cursor?.setPosition(event.data)
+    engine.cursor.setStatus(CursorStatus.Dragging)
+    engine.cursor.setPosition(event.data)
   })
   engine.subscribeTo(DragStopEvent, (event) => {
-    engine.cursor?.setStatus(CursorStatus.DragStop)
-    engine.cursor?.setDragEndPosition(event.data)
-    engine.cursor?.setDragStartPosition(null as any)
+    engine.cursor.setStatus(CursorStatus.DragStop)
+    engine.cursor.setDragEndPosition(event.data)
+    engine.cursor.setDragStartPosition(null)
     requestIdle(() => {
-      engine.cursor?.setStatus(CursorStatus.Normal)
+      engine.cursor.setStatus(CursorStatus.Normal)
     })
   })
   engine.subscribeTo(MouseMoveEvent, (event) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
     const operation = currentWorkspace.operation
-    if (engine.cursor?.status !== CursorStatus.Normal) {
+    if (engine.cursor.status !== CursorStatus.Normal) {
       operation.hover.clear()
       return
     }
@@ -50,9 +50,9 @@ export const useCursorEffect = (engine: Engine) => {
     if (!el?.getAttribute) {
       return
     }
-    const nodeId = el.getAttribute(engine.props.nodeIdAttrName as any)
-    const outlineNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName as any)
-    const node = operation.tree.findById(nodeId || outlineNodeId as any)
+    const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
+    const outlineNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName)
+    const node = operation.tree.findById(nodeId || outlineNodeId)
     if (node) {
       operation.hover.setHover(node)
     } else {

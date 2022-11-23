@@ -10,9 +10,9 @@ import { IEngineContext, WorkbenchTypes } from '../types'
 export class Workbench {
   workspaces: Workspace[]
 
-  currentWorkspace: Workspace | null
+  currentWorkspace: Workspace
 
-  activeWorkspace: Workspace | null
+  activeWorkspace: Workspace
 
   engine: Engine
 
@@ -44,8 +44,8 @@ export class Workbench {
     return {
       engine: this.engine,
       workbench: this.engine.workbench,
-      workspace: null as any,
-      viewport: null as any,
+      workspace: null,
+      viewport: null,
     }
   }
 
@@ -68,7 +68,7 @@ export class Workbench {
   }
 
   addWorkspace(props: IWorkspaceProps) {
-    const finded = this.findWorkspaceById(props.id as any)
+    const finded = this.findWorkspaceById(props.id)
     if (!finded) {
       this.currentWorkspace = new Workspace(this.engine, props)
       this.workspaces.push(this.currentWorkspace)
@@ -96,7 +96,7 @@ export class Workbench {
   }
 
   ensureWorkspace(props: IWorkspaceProps = {}) {
-    const workspace = this.findWorkspaceById(props.id as any)
+    const workspace = this.findWorkspaceById(props.id)
     if (workspace) return workspace
     this.addWorkspace(props)
     return this.currentWorkspace

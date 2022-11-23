@@ -12,7 +12,7 @@ export interface IFromNodeEventData {
 export class FromNodeEvent implements ICustomEvent {
   type = 'from:node'
   data: IFromNodeEventData
-  context?: IEngineContext
+  context: IEngineContext
   constructor(data: IFromNodeEventData) {
     this.data = data
   }

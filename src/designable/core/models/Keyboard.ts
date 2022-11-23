@@ -17,16 +17,16 @@ export interface IKeyboard {
 }
 
 export class Keyboard {
-  engine?: Engine
+  engine: Engine
   shortcuts: Shortcut[] = []
   sequence: KeyCode[] = []
-  keyDown: KeyCode|null = null
+  keyDown: KeyCode = null
   modifiers = {}
   requestTimer = null
 
   constructor(engine?: Engine) {
     this.engine = engine
-    this.shortcuts = engine?.props?.shortcuts || []
+    this.shortcuts = engine.props?.shortcuts || []
     this.makeObservable()
   }
 
@@ -74,7 +74,7 @@ export class Keyboard {
 
   handleModifiers(event: AbstractKeyboardEvent) {
     Modifiers.forEach(([key, code]) => {
-      if ((event as any)[key]) {
+      if (event[key]) {
         if (!this.includes(code)) {
           this.sequence = [code].concat(this.sequence)
         }
@@ -108,12 +108,12 @@ export class Keyboard {
   }
 
   requestClean(duration = 320) {
-    clearTimeout(this.requestTimer as any)
+    clearTimeout(this.requestTimer)
     this.requestTimer = setTimeout(() => {
       this.keyDown = null
       this.sequence = []
-      clearTimeout(this.requestTimer as any)
-    }, duration) as any
+      clearTimeout(this.requestTimer)
+    }, duration)
   }
 
   makeObservable() {

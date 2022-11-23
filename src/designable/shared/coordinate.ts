@@ -608,7 +608,7 @@ export function calcClosestEdges(
   line: ILineSegment,
   edges: IRectEdgeLines
 ): [number, ILineSegment] {
-  let result: ILineSegment|undefined
+  let result: ILineSegment
   let distance = Infinity
   if (line?.start?.y === line?.end?.y) {
     edges.h.forEach((target) => {
@@ -629,5 +629,5 @@ export function calcClosestEdges(
   } else {
     throw new Error('can not calculate slash distance')
   }
-  return [distance, result] as any
+  return [distance, result]
 }

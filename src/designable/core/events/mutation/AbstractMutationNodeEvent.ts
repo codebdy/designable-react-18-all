@@ -14,7 +14,7 @@ export interface IMutationNodeEventData {
 
 export class AbstractMutationNodeEvent {
   data: IMutationNodeEventData
-  context?: IEngineContext
+  context: IEngineContext
   constructor(data: IMutationNodeEventData) {
     this.data = data
   }

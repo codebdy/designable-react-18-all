@@ -11,14 +11,14 @@ export class Subscribable<ExtendsType = any> {
     index?: number
     [key: number]: ISubscriber
   } = {
-      index: 0,
-    }
+    index: 0,
+  }
 
   dispatch<T extends ExtendsType = any>(event: T, context?: any) {
     let interrupted = false
     for (const key in this.subscribers) {
       if (isFn(this.subscribers[key])) {
-        (event as any)['context'] = context
+        event['context'] = context
         if (this.subscribers[key](event) === false) {
           interrupted = true
         }
@@ -28,18 +28,18 @@ export class Subscribable<ExtendsType = any> {
   }
 
   subscribe(subscriber: ISubscriber) {
-    let id: number = 0
+    let id: number
     if (isFn(subscriber)) {
-      id = (this.subscribers.index || 0) + 1
+      id = this.subscribers.index + 1
       this.subscribers[id] = subscriber
-      this.subscribers.index = this.subscribers.index ? this.subscribers.index++ : 1
+      this.subscribers.index++
     }
 
     const unsubscribe = () => {
       this.unsubscribe(id)
     }
 
-    (unsubscribe as any)[UNSUBSCRIBE_ID_SYMBOL] = id
+    unsubscribe[UNSUBSCRIBE_ID_SYMBOL] = id
 
     return unsubscribe
   }
@@ -52,9 +52,9 @@ export class Subscribable<ExtendsType = any> {
       return
     }
     if (!isFn(id)) {
-      delete this.subscribers[id as any]
+      delete this.subscribers[id]
     } else {
-      delete this.subscribers[(id as any)[UNSUBSCRIBE_ID_SYMBOL as any] as any]
+      delete this.subscribers[id[UNSUBSCRIBE_ID_SYMBOL]]
     }
   }
 }

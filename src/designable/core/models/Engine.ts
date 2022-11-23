@@ -15,16 +15,16 @@ export class Engine extends Event {
 
   props: IEngineProps<Engine>
 
-  cursor?: Cursor
+  cursor: Cursor
 
-  workbench?: Workbench
+  workbench: Workbench
 
-  keyboard?: Keyboard
+  keyboard: Keyboard
 
-  screen?: Screen
+  screen: Screen
 
   constructor(props: IEngineProps<Engine>) {
-    super(props as any)
+    super(props)
     this.props = {
       ...Engine.defaultProps,
       ...props,
@@ -41,7 +41,7 @@ export class Engine extends Event {
   }
 
   setCurrentTree(tree?: ITreeNode) {
-    if (this.workbench?.currentWorkspace) {
+    if (this.workbench.currentWorkspace) {
       this.workbench.currentWorkspace.operation.tree.from(tree)
     }
   }
@@ -52,9 +52,9 @@ export class Engine extends Event {
 
   getAllSelectedNodes() {
     let results: TreeNode[] = []
-    for (let i = 0; i < (this.workbench?.workspaces.length||0); i++) {
-      const workspace = this.workbench?.workspaces[i]
-      results = results.concat(workspace?.operation.selection.selectedNodes as any)
+    for (let i = 0; i < this.workbench.workspaces.length; i++) {
+      const workspace = this.workbench.workspaces[i]
+      results = results.concat(workspace.operation.selection.selectedNodes)
     }
     return results
   }
@@ -64,8 +64,8 @@ export class Engine extends Event {
   }
 
   findMovingNodes(): TreeNode[] {
-    const results = [] as any
-    this.workbench?.eachWorkspace((workspace) => {
+    const results = []
+    this.workbench.eachWorkspace((workspace) => {
       workspace.operation.moveHelper.dragNodes?.forEach((node) => {
         if (!results.includes(node)) {
           results.push(node)
@@ -82,9 +82,15 @@ export class Engine extends Event {
   mount() {
     this.attachEvents(globalThisPolyfill)
   }
+  attachEvents(globalThisPolyfill: any, arg2?:any, arg3?: any) {
+    throw new Error('Method not implemented.')
+  }
 
   unmount() {
     this.detachEvents()
+  }
+  detachEvents(container?:any) {
+    throw new Error('Method not implemented.')
   }
 
   static defaultProps: IEngineProps<Engine> = {

@@ -9,15 +9,15 @@ import {
 } from 'designable/shared'
 
 export const useAutoScrollEffect = (engine: Engine) => {
-  let xScroller: IAutoScrollBasicInfo | null = null
-  let yScroller: IAutoScrollBasicInfo | null = null
-  let xScrollerAnimationStop: any = null
-  let yScrollerAnimationStop: any = null
+  let xScroller: IAutoScrollBasicInfo = null
+  let yScroller: IAutoScrollBasicInfo = null
+  let xScrollerAnimationStop = null
+  let yScrollerAnimationStop = null
 
   const scrolling = (point: IPoint, viewport: Viewport) => {
-    if (engine.cursor?.status === CursorStatus.Dragging) {
-      xScroller = calcAutoScrollBasicInfo(point, 'x', viewport.rect as any)
-      yScroller = calcAutoScrollBasicInfo(point, 'y', viewport.rect as any)
+    if (engine.cursor.status === CursorStatus.Dragging) {
+      xScroller = calcAutoScrollBasicInfo(point, 'x', viewport.rect)
+      yScroller = calcAutoScrollBasicInfo(point, 'y', viewport.rect)
       if (xScroller) {
         if (xScrollerAnimationStop) {
           xScrollerAnimationStop()
@@ -52,16 +52,16 @@ export const useAutoScrollEffect = (engine: Engine) => {
   }
 
   engine.subscribeTo(DragStartEvent, () => {
-    engine.workbench?.eachWorkspace((workspace) => {
+    engine.workbench.eachWorkspace((workspace) => {
       workspace.viewport.takeDragStartSnapshot()
     })
   })
 
   engine.subscribeTo(DragMoveEvent, (event) => {
-    engine.workbench?.eachWorkspace((workspace) => {
+    engine.workbench.eachWorkspace((workspace) => {
       const viewport = workspace.viewport
       const outline = workspace.outline
-      const point = new Point(event.data.topClientX as any, event.data.topClientY as any)
+      const point = new Point(event.data.topClientX, event.data.topClientY)
       if (outline.isPointInViewport(point)) {
         scrolling(point, outline)
       } else if (viewport.isPointInViewport(point)) {

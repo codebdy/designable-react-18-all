@@ -26,12 +26,12 @@ export interface ISpaceBlock {
 export type AroundSpaceBlock = Record<ISpaceBlockType, SpaceBlock>
 
 export class SpaceBlock {
-  _id?: string
-  distance?: number
-  refer?: TreeNode
+  _id: string
+  distance: number
+  refer: TreeNode
   helper: TransformHelper
-  rect?: Rect
-  type?: ISpaceBlockType
+  rect: Rect
+  type: ISpaceBlockType
   constructor(helper: TransformHelper, box: ISpaceBlock) {
     this.helper = helper
     this.distance = box.distance
@@ -40,30 +40,30 @@ export class SpaceBlock {
     this.type = box.type
   }
 
-  get referRect(): Rect | undefined {
-    if (!this.refer) return undefined
+  get referRect() {
+    if (!this.refer) return
     return this.helper.getNodeRect(this.refer)
   }
 
   get id() {
     return (
       this._id ??
-      `${this.rect?.x}-${this.rect?.y}-${this.rect?.width}-${this.rect?.height}`
+      `${this.rect.x}-${this.rect.y}-${this.rect.width}-${this.rect.height}`
     )
   }
 
   get next() {
-    const spaceBlock = this.helper.calcAroundSpaceBlocks(this.referRect as any)
+    const spaceBlock = this.helper.calcAroundSpaceBlocks(this.referRect)
     return spaceBlock[this.type as any]
   }
 
-  get extendsLine(): any {
-    if (!this.needExtendsLine) return undefined
+  get extendsLine() {
+    if (!this.needExtendsLine) return
     const dragNodesRect = this.helper.dragNodesRect
-    return calcExtendsLineSegmentOfRect(dragNodesRect as any, this.referRect as any)
+    return calcExtendsLineSegmentOfRect(dragNodesRect, this.referRect)
   }
 
-  get needExtendsLine(): any {
+  get needExtendsLine() {
     const targetRect = this.crossDragNodesRect
     const referRect = this.crossReferRect
     if (this.type === 'top' || this.type === 'bottom') {
@@ -79,23 +79,24 @@ export class SpaceBlock {
         topDelta < targetRect.height / 2 || bottomDelta < targetRect.height / 2
       )
     }
+    return true
   }
 
   get crossReferRect() {
     const referRect = this.referRect
     if (this.type === 'top' || this.type === 'bottom') {
       return new Rect(
-        referRect?.x || 0,
-        this.rect?.y || 0,
-        referRect?.width || 0,
-        this.rect?.height || 0
+        referRect.x,
+        this.rect.y,
+        referRect.width,
+        this.rect.height
       )
     } else {
       return new Rect(
-        this.rect?.x || 0,
-        referRect?.y || 0,
-        this.rect?.width || 0,
-        referRect?.height || 0
+        this.rect.x,
+        referRect.y,
+        this.rect.width,
+        referRect.height
       )
     }
   }
@@ -104,17 +105,17 @@ export class SpaceBlock {
     const dragNodesRect = this.helper.dragNodesRect
     if (this.type === 'top' || this.type === 'bottom') {
       return new Rect(
-        dragNodesRect?.x || 0,
-        this.rect?.y || 0,
-        dragNodesRect?.width || 0,
-        this.rect?.height || 0
+        dragNodesRect.x,
+        this.rect.y,
+        dragNodesRect.width,
+        this.rect.height
       )
     } else {
       return new Rect(
-        this.rect?.x || 0,
-        dragNodesRect?.y || 0,
-        this.rect?.width || 0,
-        dragNodesRect?.height || 0
+        this.rect.x,
+        dragNodesRect.y,
+        this.rect.width,
+        dragNodesRect.height
       )
     }
   }
@@ -124,10 +125,9 @@ export class SpaceBlock {
     let spaceBlock: SpaceBlock = this as any
     while ((spaceBlock = spaceBlock.next)) {
       if (
-        Math.abs((spaceBlock.distance as any) - (this.distance as any)) <
+        Math.abs(spaceBlock.distance - this.distance) <
         TransformHelper.threshold
       ) {
-        // eslint-disable-next-line no-loop-func
         if (results.some((box) => box.distance !== spaceBlock.distance))
           continue
         results.push(spaceBlock)
@@ -136,53 +136,53 @@ export class SpaceBlock {
     return results
   }
 
-  get snapLine(): any {
-    if (!this.isometrics.length) return undefined
+  get snapLine() {
+    if (!this.isometrics.length) return
     const nextRect = this.next.rect
     const referRect = this.referRect
     let line: LineSegment
     if (this.type === 'top') {
       line = new LineSegment(
         {
-          x: nextRect?.left as any,
-          y: referRect?.bottom as any + nextRect?.height,
+          x: nextRect.left,
+          y: referRect.bottom + nextRect.height,
         },
         {
-          x: nextRect?.right as any,
-          y: referRect?.bottom as any + nextRect?.height,
+          x: nextRect.right,
+          y: referRect.bottom + nextRect.height,
         }
       )
     } else if (this.type === 'bottom') {
       line = new LineSegment(
         {
-          x: nextRect?.left as any,
-          y: referRect?.top as any - (nextRect?.height as any),
+          x: nextRect.left,
+          y: referRect.top - nextRect.height,
         },
         {
-          x: nextRect?.right as any,
-          y: referRect?.top as any - (nextRect?.height as any),
+          x: nextRect.right,
+          y: referRect.top - nextRect.height,
         }
       )
     } else if (this.type === 'left') {
       line = new LineSegment(
         {
-          x: referRect?.right as any + nextRect?.width,
-          y: nextRect?.top as any,
+          x: referRect.right + nextRect.width,
+          y: nextRect.top,
         },
         {
-          x: referRect?.right as any + nextRect?.width,
-          y: nextRect?.bottom as any,
+          x: referRect.right + nextRect.width,
+          y: nextRect.bottom,
         }
       )
     } else {
       line = new LineSegment(
         {
-          x: referRect?.left as any - (nextRect?.width as any),
-          y: nextRect?.top as any,
+          x: referRect.left - nextRect.width,
+          y: nextRect.top,
         },
         {
-          x: referRect?.left as any - (nextRect?.width as any),
-          y: nextRect?.bottom as any,
+          x: referRect.left - nextRect.width,
+          y: nextRect.bottom,
         }
       )
     }

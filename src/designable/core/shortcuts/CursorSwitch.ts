@@ -5,7 +5,7 @@ export const CursorSwitchSelection = new Shortcut({
   handler(context) {
     const engine = context?.engine
     if (engine) {
-      engine.cursor?.setType(CursorType.Selection)
+      engine.cursor.setType(CursorType.Selection)
     }
   },
 })

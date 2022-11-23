@@ -54,23 +54,23 @@ export class MoveHelper {
 
   dragNodes: TreeNode[] = []
 
-  touchNode: TreeNode | null = null
+  touchNode: TreeNode = null
 
-  closestNode: TreeNode | null = null
+  closestNode: TreeNode = null
 
-  activeViewport: Viewport | null = null
+  activeViewport: Viewport = null
 
-  viewportClosestRect: Rect | null = null
+  viewportClosestRect: Rect = null
 
-  outlineClosestRect: Rect | null = null
+  outlineClosestRect: Rect = null
 
-  viewportClosestOffsetRect: Rect | null = null
+  viewportClosestOffsetRect: Rect = null
 
-  outlineClosestOffsetRect: Rect | null = null
+  outlineClosestOffsetRect: Rect = null
 
-  viewportClosestDirection: ClosestPosition | null = null
+  viewportClosestDirection: ClosestPosition = null
 
-  outlineClosestDirection: ClosestPosition | null = null
+  outlineClosestDirection: ClosestPosition = null
 
   dragging = false
 
@@ -104,10 +104,10 @@ export class MoveHelper {
   }
 
   getClosestLayout(viewport: Viewport) {
-    return viewport.getValidNodeLayout(this.closestNode as any)
+    return viewport.getValidNodeLayout(this.closestNode)
   }
 
-  calcClosestPosition(point: IPoint, viewport: Viewport): ClosestPosition | undefined {
+  calcClosestPosition(point: IPoint, viewport: Viewport): ClosestPosition {
     const closestNode = this.closestNode
     if (!closestNode || !viewport.isPointInViewport(point))
       return ClosestPosition.Forbid
@@ -121,10 +121,10 @@ export class MoveHelper {
       closestRect,
       viewport.moveInsertionType === 'block' ? false : isInline
     )
-    const getValidParent = (node: TreeNode): TreeNode | undefined => {
+    const getValidParent = (node: TreeNode) => {
       if (!node) return
       if (node.parent?.allowSibling(this.dragNodes)) return node.parent
-      return getValidParent(node.parent as any)
+      return getValidParent(node.parent)
     }
     if (isPointInRect(point, closestRect, viewport.moveSensitive)) {
       if (!closestNode.allowAppend(this.dragNodes)) {
@@ -210,7 +210,7 @@ export class MoveHelper {
     }
   }
 
-  calcClosestNode(point: IPoint, viewport: Viewport): TreeNode | undefined {
+  calcClosestNode(point: IPoint, viewport: Viewport): TreeNode {
     if (this.touchNode) {
       const touchNodeRect = viewport.getValidNodeRect(this.touchNode)
       if (!touchNodeRect) return
@@ -219,7 +219,7 @@ export class MoveHelper {
         let minDistance = touchDistance
         let minDistanceNode = this.touchNode
         this.touchNode.eachChildren((node) => {
-          const rect = viewport.getElementRectById(node.id as any)
+          const rect = viewport.getElementRectById(node.id)
           if (!rect) return
           const distance = isPointInRect(point, rect, viewport.moveSensitive)
             ? 0
@@ -237,7 +237,7 @@ export class MoveHelper {
     return this.operation.tree
   }
 
-  calcClosestRect(viewport: Viewport, closestDirection: ClosestPosition): Rect | undefined {
+  calcClosestRect(viewport: Viewport, closestDirection: ClosestPosition): Rect {
     const closestNode = this.closestNode
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeRect(closestNode)
@@ -254,7 +254,7 @@ export class MoveHelper {
   calcClosestOffsetRect(
     viewport: Viewport,
     closestDirection: ClosestPosition
-  ): Rect | undefined {
+  ): Rect {
     const closestNode = this.closestNode
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeOffsetRect(closestNode)
@@ -279,7 +279,7 @@ export class MoveHelper {
         })
       )
       this.viewport.cacheElements()
-      this.cursor?.setDragType(CursorDragType.Move)
+      this.cursor.setDragType(CursorDragType.Move)
       this.dragging = true
     }
   }
@@ -290,11 +290,11 @@ export class MoveHelper {
     if (this.outline.isPointInViewport(point, false)) {
       this.activeViewport = this.outline
       this.touchNode = touchNode
-      this.closestNode = this.calcClosestNode(point, this.outline) as any
+      this.closestNode = this.calcClosestNode(point, this.outline)
     } else if (this.viewport.isPointInViewport(point, false)) {
       this.activeViewport = this.viewport
       this.touchNode = touchNode
-      this.closestNode = this.calcClosestNode(point, this.viewport) as any
+      this.closestNode = this.calcClosestNode(point, this.viewport)
     }
     if (!this.activeViewport) return
 
@@ -302,34 +302,34 @@ export class MoveHelper {
       this.outlineClosestDirection = this.calcClosestPosition(
         point,
         this.outline
-      ) as any
+      )
       this.viewportClosestDirection = this.outlineClosestDirection
     } else {
       this.viewportClosestDirection = this.calcClosestPosition(
         point,
         this.viewport
-      ) as any
+      )
       this.outlineClosestDirection = this.viewportClosestDirection
     }
     if (this.outline.mounted) {
       this.outlineClosestRect = this.calcClosestRect(
         this.outline,
-        this.outlineClosestDirection as any
-      ) as any
+        this.outlineClosestDirection
+      )
       this.outlineClosestOffsetRect = this.calcClosestOffsetRect(
         this.outline,
-        this.outlineClosestDirection as any
-      ) as any
+        this.outlineClosestDirection
+      )
     }
     if (this.viewport.mounted) {
       this.viewportClosestRect = this.calcClosestRect(
         this.viewport,
-        this.viewportClosestDirection as any
-      ) as any
+        this.viewportClosestDirection
+      )
       this.viewportClosestOffsetRect = this.calcClosestOffsetRect(
         this.viewport,
-        this.viewportClosestDirection as any
-      ) as any
+        this.viewportClosestDirection
+      )
     }
   }
 

@@ -20,7 +20,7 @@ export interface ISerializable {
 
 export class History<T extends ISerializable = any> {
   context: ISerializable
-  props?: IHistoryProps<HistoryItem<T>>
+  props: IHistoryProps<HistoryItem<T>>
   current = 0
   history: HistoryItem<T>[] = []
   updateTimer = null
