@@ -60,7 +60,7 @@ export class Operation {
   }
 
   snapshot(type?: string) {
-    cancelIdle(this.requests.snapshot)
+    cancelIdle(this.requests.snapshot as any)
     if (
       !this.workspace ||
       !this.workspace.history ||
@@ -69,7 +69,7 @@ export class Operation {
       return
     this.requests.snapshot = requestIdle(() => {
       this.workspace.history.push(type)
-    })
+    }) as any
   }
 
   from(operation?: IOperation) {
@@ -85,7 +85,7 @@ export class Operation {
   serialize(): IOperation {
     return {
       tree: this.tree.serialize(),
-      selected: [this.tree.id],
+      selected: [this.tree.id as any],
     }
   }
 }

@@ -20,12 +20,17 @@
 
 const NEWER = Symbol('newer')
 const OLDER = Symbol('older')
-
-function Entry(key: any, value: any) {
-  this.key = key
-  this.value = value
-  this[NEWER] = undefined
-  this[OLDER] = undefined
+//Water.Li Class部分有不确定性修改
+class Entry {
+  key: any;
+  value: any;
+  [key: string]: any;
+  constructor(key: any, value: any) {
+    this.key = key
+    this.value = value
+    this[NEWER as any] = undefined
+    this[OLDER as any] = undefined
+  }
 }
 
 export class LRUMap<K, V> {
@@ -92,7 +97,7 @@ export class LRUMap<K, V> {
         this.oldest = e
       } else {
         entry[NEWER] = e
-        e[OLDER] = entry
+        e[OLDER as any] = entry
       }
       entry = e
       if (limit-- === 0) {
@@ -105,7 +110,7 @@ export class LRUMap<K, V> {
 
   get(key: K) {
     // First, find our cache entry
-    const entry = this._keymap.get(key)
+    const entry = this._keymap.get(key) as any
     if (!entry) {
       return
     } // Not cached. Sorry.
@@ -115,7 +120,7 @@ export class LRUMap<K, V> {
   }
 
   set(key: K, value: V) {
-    let entry = this._keymap.get(key)
+    let entry = this._keymap.get(key) as any
 
     if (entry) {
       // update existing
@@ -179,7 +184,7 @@ export class LRUMap<K, V> {
   }
 
   delete(key: any) {
-    const entry = this._keymap.get(key)
+    const entry = this._keymap.get(key) as any
     if (!entry) {
       return
     }
@@ -222,7 +227,7 @@ export class LRUMap<K, V> {
     return new ValueIterator(this.oldest)
   }
 
-  entries() {}
+  entries() { }
 
   forEach(fun: (value: any, key: any, ctx: object) => void, thisObj: any) {
     if (typeof thisObj !== 'object') {

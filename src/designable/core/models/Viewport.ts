@@ -47,7 +47,7 @@ export class Viewport {
 
   viewportElement: HTMLElement
 
-  dragStartSnapshot: IViewportData
+  dragStartSnapshot?: IViewportData
 
   scrollX = 0
 
@@ -59,7 +59,7 @@ export class Viewport {
 
   mounted = false
 
-  attachRequest: number
+  attachRequest?: number
 
   nodeIdAttrName: string
 
@@ -90,7 +90,7 @@ export class Viewport {
     return this.scrollY === 0
   }
 
-  get isScrollRight() {
+  get isScrollRight(): boolean | undefined {
     if (this.isIframe) {
       return (
         this.width + this.contentWindow.scrollX >=
@@ -102,9 +102,10 @@ export class Viewport {
         this.viewportElement.scrollWidth
       )
     }
+    return undefined
   }
 
-  get isScrollBottom() {
+  get isScrollBottom(): boolean | undefined {
     if (this.isIframe) {
       if (!this.contentWindow?.document?.body) return false
       return (
@@ -118,6 +119,8 @@ export class Viewport {
         this.viewportElement.scrollHeight
       )
     }
+
+    return undefined
   }
 
   get viewportRoot() {
@@ -138,14 +141,16 @@ export class Viewport {
     return this.isIframe ? this.contentWindow : this.viewportElement
   }
 
-  get rect() {
+  get rect(): DOMRect | undefined {
     const viewportElement = this.viewportElement
     if (viewportElement) return viewportElement.getBoundingClientRect()
+
+    return undefined
   }
 
   get innerRect() {
     const rect = this.rect
-    return new Rect(0, 0, rect?.width, rect?.height)
+    return new Rect(0, 0, rect?.width as any, rect?.height as any)
   }
 
   get offsetX() {
@@ -169,22 +174,22 @@ export class Viewport {
   }
 
   get dragScrollXDelta() {
-    return this.scrollX - this.dragStartSnapshot.scrollX
+    return this.scrollX - (this.dragStartSnapshot?.scrollX as any)
   }
 
   get dragScrollYDelta() {
-    return this.scrollY - this.dragStartSnapshot.scrollY
+    return this.scrollY - (this.dragStartSnapshot?.scrollY as any)
   }
 
   cacheElements() {
     this.nodeElementsStore = {}
     this.viewportRoot
       ?.querySelectorAll(`*[${this.nodeIdAttrName}]`)
-      .forEach((element: HTMLElement) => {
+      .forEach(((element: HTMLElement) => {
         const id = element.getAttribute(this.nodeIdAttrName)
-        this.nodeElementsStore[id] = this.nodeElementsStore[id] || []
-        this.nodeElementsStore[id].push(element)
-      })
+        this.nodeElementsStore[id as any] = this.nodeElementsStore[id as any] || []
+        this.nodeElementsStore[id as any].push(element)
+      }) as any)
   }
 
   clearCache() {
@@ -237,7 +242,7 @@ export class Viewport {
 
   attachEvents() {
     const engine = this.engine
-    cancelIdle(this.attachRequest)
+    cancelIdle(this.attachRequest as any)
     this.attachRequest = requestIdle(() => {
       if (!engine) return
       if (this.isIframe) {
@@ -272,7 +277,7 @@ export class Viewport {
 
   isPointInViewport(point: IPoint, sensitive?: boolean) {
     if (!this.rect) return false
-    if (!this.containsElement(document.elementFromPoint(point.x, point.y))) {
+    if (!this.containsElement(document.elementFromPoint(point.x, point.y) as any)) {
       return false
     }
     return isPointInRect(point, this.rect, sensitive)
@@ -280,7 +285,7 @@ export class Viewport {
 
   isRectInViewport(rect: IRect) {
     if (!this.rect) return false
-    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y))) {
+    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y) as any)) {
       return false
     }
     return isRectInRect(rect, this.rect)
@@ -293,14 +298,14 @@ export class Viewport {
 
   isOffsetPointInViewport(point: IPoint, sensitive?: boolean) {
     if (!this.innerRect) return false
-    if (!this.containsElement(document.elementFromPoint(point.x, point.y)))
+    if (!this.containsElement(document.elementFromPoint(point.x, point.y) as any))
       return false
     return isPointInRect(point, this.innerRect, sensitive)
   }
 
   isOffsetRectInViewport(rect: IRect) {
     if (!this.innerRect) return false
-    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y))) {
+    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y) as any)) {
       return false
     }
     return isRectInRect(rect, this.innerRect)
@@ -318,8 +323,8 @@ export class Viewport {
     })
   }
 
-  findElementById(id: string): HTMLElement {
-    if (!id) return
+  findElementById(id: string): HTMLElement | undefined {
+    if (!id) return undefined
     if (this.nodeElementsStore[id]) return this.nodeElementsStore[id][0]
     return this.viewportRoot?.querySelector(
       `*[${this.nodeIdAttrName}='${id}']`
@@ -345,19 +350,19 @@ export class Viewport {
   getOffsetPoint(topPoint: IPoint) {
     const data = this.getCurrentData()
     return {
-      x: topPoint.x - this.offsetX + data.scrollX,
-      y: topPoint.y - this.offsetY + data.scrollY,
+      x: topPoint.x - this.offsetX + (data.scrollX as any),
+      y: topPoint.y - this.offsetY + (data.scrollY as any),
     }
   }
 
   //相对于页面
   getElementRect(element: HTMLElement | Element) {
     const rect = element.getBoundingClientRect()
-    const offsetWidth = element['offsetWidth']
-      ? element['offsetWidth']
+    const offsetWidth = (element as any)['offsetWidth']
+      ? (element as any)['offsetWidth']
       : rect.width
-    const offsetHeight = element['offsetHeight']
-      ? element['offsetHeight']
+    const offsetHeight = (element as any)['offsetHeight']
+      ? (element as any)['offsetHeight']
       : rect.height
     return new Rect(
       rect.x,
@@ -401,9 +406,9 @@ export class Viewport {
       } else {
         return new Rect(
           (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
-            this.scale,
+          this.scale,
           (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
-            this.scale,
+          this.scale,
           elementRect.width,
           elementRect.height
         )
@@ -429,9 +434,9 @@ export class Viewport {
       } else {
         return new Rect(
           (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
-            this.scale,
+          this.scale,
           (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
-            this.scale,
+          this.scale,
           elementRect.width,
           elementRect.height
         )
@@ -440,51 +445,51 @@ export class Viewport {
   }
 
   getValidNodeElement(node: TreeNode): Element {
-    const getNodeElement = (node: TreeNode) => {
+    const getNodeElement: any = (node: TreeNode) => {
       if (!node) return
-      const ele = this.findElementById(node.id)
+      const ele = this.findElementById(node.id as any)
       if (ele) {
         return ele
       } else {
-        return getNodeElement(node.parent)
+        return getNodeElement(node.parent as any)
       }
     }
     return getNodeElement(node)
   }
 
-  getChildrenRect(node: TreeNode): Rect {
-    if (!node?.children?.length) return
+  getChildrenRect(node: TreeNode): Rect|undefined {
+    if (!node?.children?.length) return undefined
     return calcBoundingRect(
       node.children.reduce((buf, child) => {
         const rect = this.getValidNodeRect(child)
         if (rect) {
-          return buf.concat(rect)
+          return buf.concat(rect as any)
         }
         return buf
       }, [])
-    )
+    ) as any
   }
 
-  getChildrenOffsetRect(node: TreeNode): Rect {
-    if (!node?.children?.length) return
+  getChildrenOffsetRect(node: TreeNode): Rect|undefined {
+    if (!node?.children?.length) return undefined
 
     return calcBoundingRect(
       node.children.reduce((buf, child) => {
         const rect = this.getValidNodeOffsetRect(child)
         if (rect) {
-          return buf.concat(rect)
+          return buf.concat(rect as any)
         }
         return buf
       }, [])
     )
   }
 
-  getValidNodeRect(node: TreeNode): Rect {
+  getValidNodeRect(node: TreeNode): Rect |undefined {
     if (!node) return
-    const rect = this.getElementRectById(node.id)
+    const rect = this.getElementRectById(node.id as any)
     if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.rect
-      return calcBoundingRect([this.rect, rect])
+      return calcBoundingRect([this.rect as any, rect])
     }
 
     if (rect) {
@@ -494,9 +499,9 @@ export class Viewport {
     }
   }
 
-  getValidNodeOffsetRect(node: TreeNode): Rect {
+  getValidNodeOffsetRect(node: TreeNode): Rect|undefined  {
     if (!node) return
-    const rect = this.getElementOffsetRectById(node.id)
+    const rect = this.getElementOffsetRectById(node.id as any)
     if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.innerRect
       return calcBoundingRect([this.innerRect, rect])
@@ -511,6 +516,6 @@ export class Viewport {
   getValidNodeLayout(node: TreeNode) {
     if (!node) return 'vertical'
     if (node.parent?.designerProps?.inlineChildrenLayout) return 'horizontal'
-    return calcElementLayout(this.findElementById(node.id))
+    return calcElementLayout(this.findElementById(node.id as any) as any)
   }
 }

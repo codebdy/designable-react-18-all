@@ -66,7 +66,7 @@ export function each(val: any, iterator: any, revert?: boolean): void {
     let key: string
     for (key in val) {
       if (Object.hasOwnProperty.call(val, key)) {
-        if (iterator(val[key], key) === false) {
+        if (iterator((val as any)[key] as any, key) === false) {
           return
         }
       }
@@ -90,7 +90,7 @@ export function map<T extends {}, TResult>(
   revert?: boolean
 ): any
 export function map(val: any, iterator: any, revert?: boolean): any {
-  const res = isArr(val) || isStr(val) ? [] : {}
+  const res = isArr(val) || isStr(val) ? [] : {} as any
   each(
     val,
     (item, key) => {
@@ -151,6 +151,7 @@ export function every<T>(
   iterator: EachArrayIterator<T>,
   revert?: boolean
 ): boolean
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function every<T extends {}, TValue = T[keyof T]>(
   val: T,
   iterator: EachObjectIterator,
@@ -181,6 +182,7 @@ export function some<T>(
   iterator: EachArrayIterator<T>,
   revert?: boolean
 ): boolean
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function some<T extends {}, TValue = T[keyof T]>(
   val: T,
   iterator: EachObjectIterator,
@@ -211,6 +213,7 @@ export function findIndex<T>(
   iterator: EachArrayIterator<T>,
   revert?: boolean
 ): number
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function findIndex<T extends {}, TValue = T[keyof T]>(
   val: T,
   iterator: EachObjectIterator,
@@ -245,6 +248,7 @@ export function find<T>(
   iterator: EachArrayIterator<T>,
   revert?: boolean
 ): T
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function find<T extends {}, TValue = T[keyof T]>(
   val: T,
   iterator: EachObjectIterator,

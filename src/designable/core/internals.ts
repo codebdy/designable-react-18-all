@@ -9,15 +9,15 @@ export const mergeLocales = (target: any, source: any) => {
   if (isPlainObj(target) && isPlainObj(source)) {
     each(source, function (value, key) {
       const token = lowerSnake(key)
-      const messages = mergeLocales(target[key] || target[token], value)
-      target[token] = messages
+      const messages = mergeLocales((target as any)[key] || (target as any)[token] , value) as any
+      (target as any)[token] = messages
     })
     return target
   } else if (isPlainObj(source)) {
     const result = Array.isArray(source) ? [] : {}
     each(source, function (value, key) {
-      const messages = mergeLocales(undefined, value)
-      result[lowerSnake(key)] = messages
+      const messages = mergeLocales(undefined, value) as any
+      (result as any)[lowerSnake(key)] = messages
     })
     return result
   }
@@ -30,7 +30,7 @@ export const getBrowserLanguage = () => {
     return 'en'
   }
   return (
-    globalThisPolyfill.navigator['browserlanguage'] ||
+    (globalThisPolyfill.navigator as any)['browserlanguage'] ||
     globalThisPolyfill.navigator?.language ||
     'en'
   )

@@ -20,7 +20,7 @@ export interface ICursorEventData extends ICursorEventOriginData {
 export class AbstractCursorEvent {
   data: ICursorEventData
 
-  context: IEngineContext
+  context?: IEngineContext
 
   constructor(data: ICursorEventOriginData) {
     this.data = data || {
@@ -38,7 +38,7 @@ export class AbstractCursorEvent {
     const { frameElement } = this.data?.view || {}
     if (frameElement && this.data.view !== globalThisPolyfill) {
       const frameRect = frameElement.getBoundingClientRect()
-      const scale = frameRect.width / frameElement['offsetWidth']
+      const scale = frameRect.width / ((frameElement as any)['offsetWidth'] as any)
       this.data.topClientX = this.data.clientX * scale + frameRect.x
       this.data.topClientY = this.data.clientY * scale + frameRect.y
       this.data.topPageX =
@@ -50,7 +50,7 @@ export class AbstractCursorEvent {
         this.data.topClientY
       )
       if (topElement !== frameElement) {
-        this.data.target = topElement
+        this.data.target = topElement as any
       }
     } else {
       this.data.topClientX = this.data.clientX

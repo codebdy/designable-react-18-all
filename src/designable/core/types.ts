@@ -31,7 +31,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
 
 export type IEngineContext = {
   workspace: Workspace
-  workbench: Workbench
+  workbench?: Workbench
   engine: Engine
   viewport: Viewport
 }

@@ -8,7 +8,7 @@ export const useResizeEffect = (engine: Engine) => {
     )
     if (handler) {
       const direction = handler.getAttribute(
-        engine.props.nodeResizeHandlerAttrName
+        engine.props.nodeResizeHandlerAttrName as any
       )
       if (direction) {
         const element = handler.closest(
@@ -16,7 +16,7 @@ export const useResizeEffect = (engine: Engine) => {
         )
         if (element) {
           const nodeId = element.getAttribute(
-            engine.props.nodeSelectionIdAttrName
+            engine.props.nodeSelectionIdAttrName as any
           )
           if (nodeId) {
             const node = engine.findNodeById(nodeId)
@@ -33,7 +33,7 @@ export const useResizeEffect = (engine: Engine) => {
   engine.subscribeTo(DragStartEvent, (event) => {
     const target = event.data.target as HTMLElement
     const currentWorkspace =
-      event.context?.workspace ?? engine.workbench.activeWorkspace
+      event.context?.workspace ?? engine.workbench?.activeWorkspace
     if (!currentWorkspace) return
     const handler = findStartNodeHandler(target)
     const helper = currentWorkspace.operation.transformHelper
@@ -43,7 +43,7 @@ export const useResizeEffect = (engine: Engine) => {
       ) as HTMLElement
       if (selectionElement) {
         const nodeId = selectionElement.getAttribute(
-          engine.props.nodeSelectionIdAttrName
+          engine.props.nodeSelectionIdAttrName as any
         )
         if (nodeId) {
           const node = engine.findNodeById(nodeId)
@@ -60,16 +60,16 @@ export const useResizeEffect = (engine: Engine) => {
   })
 
   engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.dragType !== CursorDragType.Resize) return
+    if (engine.cursor?.dragType !== CursorDragType.Resize) return
     const currentWorkspace =
-      event.context?.workspace ?? engine.workbench.activeWorkspace
+      event.context?.workspace ?? engine.workbench?.activeWorkspace
     const helper = currentWorkspace?.operation.transformHelper
-    const dragNodes = helper.dragNodes
-    if (!dragNodes.length) return
-    helper.dragMove()
+    const dragNodes = helper?.dragNodes
+    if (!dragNodes?.length) return
+    helper?.dragMove()
     dragNodes.forEach((node) => {
-      const element = node.getElement()
-      helper.resize(node, (rect) => {
+      const element = node.getElement() as any
+      helper?.resize(node, (rect) => {
         element.style.width = rect.width + 'px'
         element.style.height = rect.height + 'px'
         element.style.position = 'absolute'
@@ -81,9 +81,9 @@ export const useResizeEffect = (engine: Engine) => {
   })
 
   engine.subscribeTo(DragStopEvent, (event) => {
-    if (engine.cursor.dragType !== CursorDragType.Resize) return
+    if (engine.cursor?.dragType !== CursorDragType.Resize) return
     const currentWorkspace =
-      event.context?.workspace ?? engine.workbench.activeWorkspace
+      event.context?.workspace ?? engine.workbench?.activeWorkspace
     const helper = currentWorkspace?.operation.transformHelper
     if (helper) {
       helper.dragEnd()

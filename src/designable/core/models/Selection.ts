@@ -10,15 +10,15 @@ export interface ISelection {
 }
 
 export class Selection {
-  operation: Operation
+  operation?: Operation
   selected: string[] = []
   indexes: Record<string, boolean> = {}
 
   constructor(props?: ISelection) {
-    if (props.selected) {
+    if (props?.selected) {
       this.selected = props.selected
     }
-    if (props.operation) {
+    if (props?.operation) {
       this.operation = props.operation
     }
     this.makeObservable()
@@ -37,10 +37,10 @@ export class Selection {
   }
 
   trigger(type = SelectNodeEvent) {
-    return this.operation.dispatch(
+    return this.operation?.dispatch(
       new type({
         target: this.operation.tree,
-        source: this.selectedNodes,
+        source: this.selectedNodes as any,
       })
     )
   }
@@ -55,7 +55,7 @@ export class Selection {
       this.indexes = { [id]: true }
       this.trigger(SelectNodeEvent)
     } else {
-      this.select(id?.id)
+      this.select(id?.id as any)
     }
   }
 
@@ -72,7 +72,7 @@ export class Selection {
 
   batchSelect(ids: string[] | TreeNode[]) {
     this.selected = this.mapIds(ids)
-    this.indexes = this.selected.reduce((buf, id) => {
+    this.indexes = this.selected.reduce((buf: any, id) => {
       buf[id] = true
       return buf
     }, {})
@@ -85,16 +85,20 @@ export class Selection {
   }
 
   get selectedNodes() {
-    return this.selected.map((id) => this.operation.tree.findById(id))
+    return this.selected.map((id) => this.operation?.tree.findById(id))
   }
 
-  get first() {
+  get first(): string | undefined {
     if (this.selected && this.selected.length) return this.selected[0]
+
+    return undefined
   }
 
-  get last() {
+  get last(): string | undefined {
     if (this.selected && this.selected.length)
       return this.selected[this.selected.length - 1]
+
+    return undefined
   }
 
   get length() {
@@ -123,7 +127,7 @@ export class Selection {
       } else {
         const minDistanceNode = selectedNodes.reduce(
           (minDistanceNode, item) => {
-            return item.distanceTo(node) < minDistanceNode.distanceTo(node)
+            return (item?.distanceTo(node)||0) < (minDistanceNode?.distanceTo(node)||0)
               ? item
               : minDistanceNode
           },
@@ -132,15 +136,15 @@ export class Selection {
         if (minDistanceNode) {
           const crossNodes = node.crossSiblings(minDistanceNode)
           crossNodes.forEach((node) => {
-            if (!this.has(node.id)) {
-              this.selected.push(node.id)
-              this.indexes[node.id] = true
+            if (!this.has(node.id as any)) {
+              this.selected.push(node.id as any)
+              this.indexes[node.id as any] = true
             }
           })
         }
-        if (!this.has(node.id)) {
-          this.selected.push(node.id)
-          this.indexes[node.id] = true
+        if (!this.has(node.id as any)) {
+          this.selected.push(node.id as any)
+          this.indexes[node.id as any] = true
         }
       }
     }
@@ -158,7 +162,7 @@ export class Selection {
     this.trigger(UnSelectNodeEvent)
   }
 
-  has(...ids: string[] | TreeNode[]) {
+  has(...ids: string[] | TreeNode[]): boolean {
     return this.mapIds(ids).some((id) => {
       if (isStr(id)) {
         return this.indexes[id]

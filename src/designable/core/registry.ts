@@ -37,8 +37,8 @@ const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
   const findSourceBehavior = (name: string) => {
     for (let key in sources) {
       const { Behavior } = sources[key]
-      for (let i = 0; i < Behavior.length; i++) {
-        if (Behavior[i].name === name) return Behavior[i]
+      for (let i = 0; i < (Behavior?.length||0); i++) {
+        if (Behavior?.[i].name === name) return Behavior[i]
       }
     }
   }
@@ -46,7 +46,7 @@ const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
     if (!item) return
     if (!isBehaviorHost(item)) return
     const { Behavior } = item
-    each(Behavior, (behavior) => {
+    each(Behavior as any, (behavior) => {
       if (findTargetBehavior(behavior)) return
       const name = behavior.name
       each(behavior.extends, (dep) => {
@@ -81,7 +81,7 @@ const DESIGNER_GlobalRegistry = {
     DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IBehavior[]>(
       (buf, behavior) => {
         if (isBehaviorHost(behavior)) {
-          return buf.concat(behavior.Behavior)
+          return buf.concat(behavior.Behavior as any)
         } else if (isBehaviorList(behavior)) {
           return buf.concat(behavior)
         }
@@ -98,7 +98,7 @@ const DESIGNER_GlobalRegistry = {
   },
 
   getDesignerIcon: (name: string) => {
-    return DESIGNER_ICONS_STORE[name]
+    return (DESIGNER_ICONS_STORE as any)[name]
   },
 
   getDesignerLanguage: () => {

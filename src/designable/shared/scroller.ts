@@ -24,7 +24,7 @@ export const calcAutoScrollBasicInfo = (
   let begin: number
   let end: number
   let pos: number
-  let speedFactor: number
+  let speedFactor: number|undefined
   if (axis === 'x') {
     begin = left
     end = right
@@ -43,13 +43,13 @@ export const calcAutoScrollBasicInfo = (
       direction: 'end',
       speedFactor,
       speed: maxSpeed * calcSpeedFactor(end - pos, moveDistance),
-    }
+    } as any
   } else if (pos - begin < moveDistance) {
     return {
       direction: 'begin',
       speedFactor,
       speed: maxSpeed * calcSpeedFactor(pos - begin, moveDistance),
-    }
+    } as any
   }
 
   return null

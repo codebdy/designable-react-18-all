@@ -8,8 +8,8 @@ export interface IHoverProps {
 }
 
 export class Hover {
-  node: TreeNode = null
-  operation: Operation
+  node: TreeNode | null = null
+  operation?: Operation
   constructor(props?: IHoverProps) {
     this.operation = props?.operation
     this.makeObservable()
@@ -34,7 +34,7 @@ export class Hover {
         new HoverNodeEvent({
           target: this.operation.tree,
           source: this.node,
-        })
+        } as any)
       )
     }
   }

@@ -17,18 +17,18 @@ export class ViewportScrollDriver extends EventDriver<Engine> {
           innerHeight: this.contentWindow.innerHeight,
           innerWidth: this.contentWindow.innerWidth,
           view: this.contentWindow,
-          target: e.target,
+          target: e.target as any,
         })
       )
-      cancelAnimationFrame(this.request)
-    })
+      cancelAnimationFrame(this.request as any)
+    }) as any
   }
 
   attach() {
-    this.addEventListener('scroll', this.onScroll)
+    this.addEventListener('scroll', this.onScroll as any)
   }
 
   detach() {
-    this.removeEventListener('scroll', this.onScroll)
+    this.removeEventListener('scroll', this.onScroll as any)
   }
 }

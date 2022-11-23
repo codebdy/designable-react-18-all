@@ -34,9 +34,9 @@ export interface IWorkspaceProps {
 export class Workspace {
   id: string
 
-  title: string
+  title?: string
 
-  description: string
+  description?: string
 
   engine: Engine
 
@@ -64,7 +64,7 @@ export class Workspace {
       nodeIdAttrName: this.engine.props.nodeIdAttrName,
       moveSensitive: true,
       moveInsertionType: 'all',
-    })
+    } as any)
     this.outline = new Viewport({
       engine: this.engine,
       workspace: this,
@@ -73,7 +73,7 @@ export class Workspace {
       nodeIdAttrName: this.engine.props.outlineNodeIdAttrName,
       moveSensitive: false,
       moveInsertionType: 'block',
-    })
+    } as any)
     this.operation = new Operation(this)
     this.history = new History(this, {
       onPush: (item) => {
@@ -91,7 +91,7 @@ export class Workspace {
         this.operation.hover.clear()
         this.operation.dispatch(new HistoryGotoEvent(item))
       },
-    })
+    }) as any
   }
 
   getEventContext(): IEngineContext {

@@ -4,7 +4,7 @@ import { KeyCode, Point } from 'designable/shared'
 
 export const useSelectionEffect = (engine: Engine) => {
   engine.subscribeTo(MouseClickEvent, (event) => {
-    if (engine.cursor.status !== CursorStatus.Normal) return
+    if (engine.cursor?.status !== CursorStatus.Normal) return
     const target: HTMLElement = event.data.target as any
     const el = target?.closest?.(`
       *[${engine.props.nodeIdAttrName}],
@@ -14,10 +14,10 @@ export const useSelectionEffect = (engine: Engine) => {
       `*[${engine.props.nodeSelectionIdAttrName}]`
     )
     const currentWorkspace =
-      event.context?.workspace ?? engine.workbench.activeWorkspace
+      event.context?.workspace ?? engine.workbench?.activeWorkspace
     if (!currentWorkspace) return
     if (!el?.getAttribute) {
-      const point = new Point(event.data.topClientX, event.data.topClientY)
+      const point = new Point(event.data.topClientX as any, event.data.topClientY as any)
       const operation = currentWorkspace.operation
       const viewport = currentWorkspace.viewport
       const outline = currentWorkspace.outline
@@ -31,17 +31,17 @@ export const useSelectionEffect = (engine: Engine) => {
       }
       return
     }
-    const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
-    const structNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName)
+    const nodeId = el.getAttribute(engine.props.nodeIdAttrName as any)
+    const structNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName as any)
     const operation = currentWorkspace.operation
     const selection = operation.selection
     const tree = operation.tree
-    const node = tree.findById(nodeId || structNodeId)
+    const node = tree.findById(nodeId || structNodeId as any)
     if (node) {
-      engine.keyboard.requestClean()
+      engine.keyboard?.requestClean()
       if (
-        engine.keyboard.isKeyDown(KeyCode.Meta) ||
-        engine.keyboard.isKeyDown(KeyCode.Control)
+        engine.keyboard?.isKeyDown(KeyCode.Meta) ||
+        engine.keyboard?.isKeyDown(KeyCode.Control)
       ) {
         if (selection.has(node)) {
           if (selection.selected.length > 1) {
@@ -50,7 +50,7 @@ export const useSelectionEffect = (engine: Engine) => {
         } else {
           selection.add(node)
         }
-      } else if (engine.keyboard.isKeyDown(KeyCode.Shift)) {
+      } else if (engine.keyboard?.isKeyDown(KeyCode.Shift)) {
         if (selection.has(node)) {
           if (selection.selected.length > 1) {
             selection.remove(node)

@@ -7,12 +7,12 @@ import { globalThisPolyfill } from 'designable/shared'
 export class ViewportResizeDriver extends EventDriver<Engine> {
   request = null
 
-  resizeObserver: ResizeObserver = null
+  resizeObserver: ResizeObserver|null = null
 
   onResize = (e: any) => {
     if (e.preventDefault) e.preventDefault()
     this.request = requestAnimationFrame(() => {
-      cancelAnimationFrame(this.request)
+      cancelAnimationFrame(this.request as any)
       this.dispatch(
         new ViewportResizeEvent({
           scrollX: this.contentWindow.scrollX,
@@ -25,7 +25,7 @@ export class ViewportResizeDriver extends EventDriver<Engine> {
           target: e.target || this.container,
         })
       )
-    })
+    }) as any
   }
 
   attach() {

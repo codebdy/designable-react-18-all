@@ -18,7 +18,7 @@ export class MouseClickDriver extends EventDriver<Engine> {
         pageY: e.pageY,
         target: e.target,
         view: e.view,
-      })
+      } as any)
     )
   }
 
@@ -37,7 +37,7 @@ export class MouseClickDriver extends EventDriver<Engine> {
         pageY: e.pageY,
         target: e.target,
         view: e.view,
-      })
+      } as any)
     )
   }
 
