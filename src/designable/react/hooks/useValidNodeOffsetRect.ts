@@ -19,6 +19,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   const [, forceUpdate] = useState(null)
   const rectRef = useMemo(
     () => ({ current: viewport.getValidNodeOffsetRect(node) }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [viewport]
   )
 
@@ -31,10 +32,11 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
     )
       return
     const nextRect = viewport.getValidNodeOffsetRect(node)
-    if (!isEqualRect(rectRef.current, nextRect) && nextRect) {
+    if (!isEqualRect(rectRef.current as any, nextRect as any) && nextRect) {
       rectRef.current = nextRect
       forceUpdate([])
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewport, node])
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
     return () => {
       layoutObserver.disconnect()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node, viewport, element])
   return rectRef.current
 }

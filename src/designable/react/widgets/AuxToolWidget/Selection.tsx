@@ -52,7 +52,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
       <ResizeHandler node={props.node} />
       <TranslateHandler node={props.node} />
       {props.showHelpers && (
-        <Helpers {...props} node={props.node} nodeRect={nodeRect} />
+        <Helpers {...props} node={props.node} nodeRect={nodeRect as any} />
       )}
     </div>
   )

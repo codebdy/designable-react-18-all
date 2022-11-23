@@ -11,6 +11,7 @@ export interface INodeActionsWidgetProps {
   className?: string
   style?: React.CSSProperties
   activeShown?: boolean
+  children?: React.ReactNode
 }
 
 export interface INodeActionsWidgetActionProps

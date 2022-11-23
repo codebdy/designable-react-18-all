@@ -11,17 +11,20 @@ const IconContext = createContext<IconProviderProps>(null)
 const isNumSize = (val: any) => /^[\d.]+$/.test(val)
 export interface IconProviderProps {
   tooltip?: boolean
+  children?: React.ReactNode
 }
 
 export interface IShadowSVGProps {
   content?: string
   width?: number | string
   height?: number | string
+  children?: React.ReactNode
 }
 export interface IIconWidgetProps extends React.HTMLAttributes<HTMLElement> {
   tooltip?: React.ReactNode | TooltipProps
   infer: React.ReactNode | { shadow: string }
   size?: number | string
+  children?: React.ReactNode
 }
 
 export const IconWidget: React.FC<IIconWidgetProps> & {
