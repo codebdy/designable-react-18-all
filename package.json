@@ -53,6 +53,7 @@
   "devDependencies": {
     "@craco/craco": "^7.0.0",
     "@types/dateformat": "^5.0.0",
+    "@types/react-color": "^3.0.6",
     "craco-less": "^2.0.0"
   }
 }
