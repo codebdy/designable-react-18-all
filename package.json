@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0",
+    "@types/dateformat": "^5.0.0",
     "craco-less": "^2.0.0"
   }
 }
