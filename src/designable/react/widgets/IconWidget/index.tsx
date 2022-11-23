@@ -41,7 +41,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
       if (finded) {
         return takeIcon(finded)
       }
-      return <img src={infer} height={height} width={width} />
+      return <img alt ="" src={infer} height={height} width={width} />
     } else if (isFn(infer)) {
       return React.createElement(infer, {
         height,
@@ -57,7 +57,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
           viewBox: infer.props.viewBox || '0 0 1024 1024',
           focusable: 'false',
           'aria-hidden': 'true',
-        })
+        } as any)
       } else if (infer.type === 'path' || infer.type === 'g') {
         return (
           <svg
@@ -121,15 +121,17 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
         cursor: props.onClick ? 'pointer' : props.style?.cursor,
       }}
     >
-      {takeIcon(props.infer)}
+      {takeIcon(props.infer as any)}
     </span>
   )
 })
 
 IconWidget.ShadowSVG = (props) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ref = useRef<HTMLDivElement>()
   const width = isNumSize(props.width) ? `${props.width}px` : props.width
   const height = isNumSize(props.height) ? `${props.height}px` : props.height
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (ref.current) {
       const root = ref.current.attachShadow({
@@ -137,11 +139,12 @@ IconWidget.ShadowSVG = (props) => {
       })
       root.innerHTML = `<svg viewBox="0 0 1024 1024" style="width:${width};height:${height}">${props.content}</svg>`
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return <div ref={ref}></div>
 }
 
-IconWidget.Provider = (props) => {
+IconWidget.Provider = (props:any) => {
   return (
     <IconContext.Provider value={props}>{props.children}</IconContext.Provider>
   )
