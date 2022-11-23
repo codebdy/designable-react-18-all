@@ -7,6 +7,7 @@ export const Content = () => (
   <ComponentTreeWidget
     components={{
       Field: observer((props) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const node = useTreeNode()
         return (
           <span

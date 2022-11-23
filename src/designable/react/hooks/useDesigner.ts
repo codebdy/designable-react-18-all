@@ -9,11 +9,13 @@ export interface IEffects {
 export const useDesigner = (effects?: IEffects): Engine => {
   const designer: Engine =
     globalThisPolyfill['__DESIGNABLE_ENGINE__'] ||
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useContext(DesignerEngineContext)
   useEffect(() => {
     if (isFn(effects)) {
       return effects(designer)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return designer
 }
