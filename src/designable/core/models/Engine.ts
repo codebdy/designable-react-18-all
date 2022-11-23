@@ -4,7 +4,7 @@ import { Workbench } from './Workbench'
 import { Cursor } from './Cursor'
 import { Keyboard } from './Keyboard'
 import { Screen, ScreenType } from './Screen'
-import { Event, uid, globalThisPolyfill } from '@designable/shared'
+import { Event, uid, globalThisPolyfill } from 'designable/shared'
 
 /**
  * 设计器引擎
@@ -82,9 +82,15 @@ export class Engine extends Event {
   mount() {
     this.attachEvents(globalThisPolyfill)
   }
+  attachEvents(globalThisPolyfill: any, arg2?:any, arg3?: any) {
+    throw new Error('Method not implemented.')
+  }
 
   unmount() {
     this.detachEvents()
+  }
+  detachEvents(container?:any) {
+    throw new Error('Method not implemented.')
   }
 
   static defaultProps: IEngineProps<Engine> = {

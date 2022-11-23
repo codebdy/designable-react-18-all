@@ -1287,6 +1287,45 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@formily/core@^2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/core/-/core-2.2.12.tgz#f1e158390820ae807a2d40a9db3cb33a59b0304f"
+  integrity sha512-79UjPFLm04zEvrrdIuQDdGG4g/Jdr78SKNfqGWDudHIgL+7pjcUn0usjspGiK2SP+f5ma/X7KMt2pktCQArHvw==
+  dependencies:
+    "@formily/reactive" "2.2.12"
+    "@formily/shared" "2.2.12"
+    "@formily/validator" "2.2.12"
+
+"@formily/path@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/path/-/path-2.2.12.tgz#186c4d4d64e5c1c4edcbf8d2e3387eb855fff04c"
+  integrity sha512-UZ7vL2Lj2S99YPqopKL6z53ShdtzJUOP1OROXKXRI0DkoDnpLYl3wtgUVUC1PNlOqF25K9ljw86Q5fVJMno6mw==
+
+"@formily/reactive@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/reactive/-/reactive-2.2.12.tgz#4e68edcf46910e3adb77cd6662c928bf89e29b3a"
+  integrity sha512-iW3p0ENVblDQeThFh8d1QRjPOTpaTf8+LcTAPuwa2Gq6VzGfz3xpPGybgbvgkdcxesWWQGDMBDYoFtrCoyrvMQ==
+
+"@formily/shared@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/shared/-/shared-2.2.12.tgz#0f44812bf95fa134baa2365d6ff6fad4f3e4434f"
+  integrity sha512-BhnG0aQ/4o2weDOig3IOm6A+8Pc3oQnjQky68FoK+NVoXQUkjTSdARYzMa7WzFK1uMzZWqeGvqx5FAs/HmlIgQ==
+  dependencies:
+    "@formily/path" "2.2.12"
+    camel-case "^4.1.1"
+    lower-case "^2.0.1"
+    no-case "^3.0.4"
+    param-case "^3.0.4"
+    pascal-case "^3.1.1"
+    upper-case "^2.0.1"
+
+"@formily/validator@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/validator/-/validator-2.2.12.tgz#a69736984cc89dd4805e912e3530b828bffcf789"
+  integrity sha512-CldnZFZgXO1Aw1rPBMuJ5UueCpD2GdTnui0fbSVXJcP7SI9SfDmKePl4mU0SQli38IJN6YDtao9Qnc52eSOXMQ==
+  dependencies:
+    "@formily/shared" "2.2.12"
+
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"
   resolved "https://registry.npmmirror.com/@humanwhocodes/config-array/-/config-array-0.11.7.tgz#38aec044c6c828f6ed51d5d7ae3d9b9faf6dbb0f"
@@ -3150,7 +3189,7 @@ callsites@^3.0.0:
   resolved "https://registry.npmmirror.com/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
 
-camel-case@^4.1.2:
+camel-case@^4.1.1, camel-case@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmmirror.com/camel-case/-/camel-case-4.1.2.tgz#9728072a954f805228225a6deea6b38461e1bd5a"
   integrity sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==
@@ -6414,7 +6453,7 @@ loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lower-case@^2.0.2:
+lower-case@^2.0.1, lower-case@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmmirror.com/lower-case/-/lower-case-2.0.2.tgz#6fa237c63dbdc4a82ca0fd882e4722dc5e634e28"
   integrity sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==
@@ -6938,7 +6977,7 @@ parseurl@~1.3.2, parseurl@~1.3.3:
   resolved "https://registry.npmmirror.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
-pascal-case@^3.1.2:
+pascal-case@^3.1.1, pascal-case@^3.1.2:
   version "3.1.2"
   resolved "https://registry.npmmirror.com/pascal-case/-/pascal-case-3.1.2.tgz#b48e0ef2b98e205e7c1dae747d0b1508237660eb"
   integrity sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==
@@ -9425,6 +9464,13 @@ update-browserslist-db@^1.0.9:
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
+
+upper-case@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.npmmirror.com/upper-case/-/upper-case-2.0.2.tgz#d89810823faab1df1549b7d97a76f8662bae6f7a"
+  integrity sha512-KgdgDGJt2TpuwBUIjgG6lzw2GWFRCW9Qkfkiv0DxqHHLYJHmtmdUIKcZd8rHgFSjopVTlw6ggzCm1b8MFQwikg==
+  dependencies:
+    tslib "^2.0.3"
 
 uri-js@^4.2.2:
   version "4.4.1"
