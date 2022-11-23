@@ -1287,7 +1287,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@formily/core@^2.2.12":
+"@formily/core@2.2.12", "@formily/core@^2.2.12":
   version "2.2.12"
   resolved "https://registry.npmmirror.com/@formily/core/-/core-2.2.12.tgz#f1e158390820ae807a2d40a9db3cb33a59b0304f"
   integrity sha512-79UjPFLm04zEvrrdIuQDdGG4g/Jdr78SKNfqGWDudHIgL+7pjcUn0usjspGiK2SP+f5ma/X7KMt2pktCQArHvw==
@@ -1296,10 +1296,40 @@
     "@formily/shared" "2.2.12"
     "@formily/validator" "2.2.12"
 
+"@formily/json-schema@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/json-schema/-/json-schema-2.2.12.tgz#17c1c91624e2093a1619246445da1ae9acd10021"
+  integrity sha512-t1rKA748PVLcPpemlyXNhtGlgDNCMVJeFnxKDjrjU0vAMF3bnncQuwGVQzESvSX0e44u1PSCEFCPk7vymFNl4A==
+  dependencies:
+    "@formily/core" "2.2.12"
+    "@formily/reactive" "2.2.12"
+    "@formily/shared" "2.2.12"
+
 "@formily/path@2.2.12":
   version "2.2.12"
   resolved "https://registry.npmmirror.com/@formily/path/-/path-2.2.12.tgz#186c4d4d64e5c1c4edcbf8d2e3387eb855fff04c"
   integrity sha512-UZ7vL2Lj2S99YPqopKL6z53ShdtzJUOP1OROXKXRI0DkoDnpLYl3wtgUVUC1PNlOqF25K9ljw86Q5fVJMno6mw==
+
+"@formily/react@^2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/react/-/react-2.2.12.tgz#6e36d4c418c67a5d1bdba3e857e04fbb370ce1d1"
+  integrity sha512-k8MZZ6Own3D8NdJs+/BDiTatyWY8cZ5x6Lmq/D/e8KtgVS88FB2cjgBh7vx31QYlsRxJR/27cfR77O+0OGzuzw==
+  dependencies:
+    "@formily/core" "2.2.12"
+    "@formily/json-schema" "2.2.12"
+    "@formily/reactive" "2.2.12"
+    "@formily/reactive-react" "2.2.12"
+    "@formily/shared" "2.2.12"
+    "@formily/validator" "2.2.12"
+    hoist-non-react-statics "^3.3.2"
+
+"@formily/reactive-react@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.npmmirror.com/@formily/reactive-react/-/reactive-react-2.2.12.tgz#d0f04d2a47ac0c031a0499fd7afa95b18a4049ce"
+  integrity sha512-jkH8j4q9Pw7Itppi6FF3YXF+J+GAMpWErfsmr8TlVsMBKs69hSP+Xet0CMrZga61bxMlq+UDylgQ7Dtuho57iA==
+  dependencies:
+    "@formily/reactive" "2.2.12"
+    hoist-non-react-statics "^3.3.2"
 
 "@formily/reactive@2.2.12":
   version "2.2.12"
@@ -5066,6 +5096,13 @@ he@^1.2.0:
   resolved "https://registry.npmmirror.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
+hoist-non-react-statics@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.npmmirror.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
+  dependencies:
+    react-is "^16.7.0"
+
 hoopy@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmmirror.com/hoopy/-/hoopy-0.1.4.tgz#609207d661100033a9a9402ad3dea677381c1b1d"
@@ -8205,7 +8242,7 @@ react-error-overlay@^6.0.11:
   resolved "https://registry.npmmirror.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
 
-react-is@^16.12.0, react-is@^16.13.1:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==

@@ -8,7 +8,8 @@ export interface IDesignerLayoutProps {
   position?: 'fixed' | 'absolute' | 'relative'
 }
 export interface IDesignerProps extends IDesignerLayoutProps {
-  engine: Engine
+  engine: Engine,
+  children?: React.ReactNode,
 }
 
 export interface IDesignerComponents {
