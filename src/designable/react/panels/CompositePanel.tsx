@@ -12,6 +12,7 @@ export interface ICompositePanelProps {
   defaultActiveKey?: number
   activeKey?: number | string
   onChange?: (activeKey: number | string) => void
+  children?: React.ReactNode
 }
 export interface ICompositePanelItemProps {
   shape?: 'tab' | 'button' | 'link'
@@ -21,6 +22,7 @@ export interface ICompositePanelItemProps {
   href?: string
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   extra?: React.ReactNode
+  children?: React.ReactNode
 }
 
 const parseItems = (

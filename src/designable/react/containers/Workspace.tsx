@@ -5,6 +5,7 @@ export interface IWorkspaceProps {
   id?: string
   title?: string
   description?: string
+  children?: React.ReactNode
 }
 
 export const Workspace: React.FC<IWorkspaceProps> = ({
