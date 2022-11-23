@@ -136,12 +136,12 @@ IconWidget.ShadowSVG = (props) => {
   const height = isNumSize(props.height) ? `${props.height}px` : props.height
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    if (ref.current) {
-      const root = ref.current.attachShadow({
-        mode: 'open',
-      })
-      root.innerHTML = `<svg viewBox="0 0 1024 1024" style="width:${width};height:${height}">${props.content}</svg>`
-    }
+    // if (ref.current) {
+    //   const root = ref.current.attachShadow({
+    //     mode: 'open',
+    //   })
+    //   root.innerHTML = `<svg viewBox="0 0 1024 1024" style="width:${width};height:${height}">${props.content}</svg>`
+    // }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return <div ref={ref}></div>
