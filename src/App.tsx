@@ -1,9 +1,9 @@
 import './App.css';
-import { Example } from 'example';
+import { Playground } from 'playground';
 
 function App() {
   return (
-    <Example />
+    <Playground />
   );
 }
 
