@@ -82,15 +82,10 @@ export class Engine extends Event {
   mount() {
     this.attachEvents(globalThisPolyfill)
   }
-  attachEvents(globalThisPolyfill: any, arg2?:any, arg3?: any) {
-    throw new Error('Method not implemented.')
-  }
+
 
   unmount() {
     this.detachEvents()
-  }
-  detachEvents(container?:any) {
-    throw new Error('Method not implemented.')
   }
 
   static defaultProps: IEngineProps<Engine> = {

@@ -15,7 +15,7 @@ export interface IComponentTreeWidgetProps {
 
 export interface ITreeNodeWidgetProps {
   node: TreeNode
-  children?: React.ReactNode
+  children?: React.ReactChild
 }
 
 export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(

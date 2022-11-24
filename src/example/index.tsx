@@ -53,7 +53,7 @@ const RootBehavior = createBehavior({
 const InputBehavior = createBehavior({
   name: 'Input',
   selector: (node) =>
-    node.componentName === 'Field' && node.props?.['x-component'] === 'Input',
+    node.componentName === 'Field' && node.props['x-component'] === 'Input',
   designerProps: {
     propsSchema: {
       type: 'object',
